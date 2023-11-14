@@ -2,21 +2,20 @@
 
 import cirq
 
-qc = cirq.Circuit()
+circuit = cirq.Circuit()
 qubits = cirq.LineQubit.range(4)
 
 for i in range(3):
-    qc.append(cirq.CNOT(qubits[i], qubits[3]))
+    circuit.append(cirq.CNOT(qubits[i], qubits[3]))
 
-qc.append(cirq.X(qubits[3]).controlled_by(qubits[0], qubits[1], qubits[2]))
+circuit.append(cirq.X(qubits[3]).controlled_by(qubits[0], qubits[1], qubits[2]))
 
-qc.append(cirq.measure(qubits[3], key='result'))
+circuit.append(cirq.measure(qubits[3], key='result'))
 simulator = cirq.Simulator()
-result = simulator.simulate(qc)
+resultSimulate = simulator.simulate(circuit)
+
+result = simulator.run(circuit, repetitions=10)
+print(resultSimulate)
 
 print(result)
-# output_file_path = 'results.txt'
-# with open(output_file_path, 'w') as file:
-#     file.write(str(result.histogram(key='result')))
 
-# print(f"Результаты сохранены в файл: {output_file_path}")
